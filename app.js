@@ -10,6 +10,8 @@ const users = require("./routes/api/users");
 const tweets = require("./routes/api/tweets");
 // C. Body Parser so we can parse JSON we send to frontend
 const bodyParser = require("body-parser");
+// E. User model
+const User = require('./models/User');
 
 // 7. Connect MongoDB using Mongoose 
 mongoose
@@ -18,7 +20,15 @@ mongoose
     .catch(err => console.log(err));
 
 // 2. Set up a route to render on the page
-app.get("/", (req, res) => res.send("Hello World"));
+app.get("/", (req, res) => {
+    const demo = new User ({
+        handle: "demo", 
+        email: "demo@email.com",
+        password: "password123"
+    })
+    demo.save()
+    res.send("Hello World")
+});
 
 // D. Set up Middleware for body parser
 app.use(bodyParser.urlencoded({ extended: false }));
