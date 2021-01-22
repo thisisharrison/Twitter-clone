@@ -7,16 +7,25 @@ const jwt = require('jsonwebtoken');
 const keys = require('../../config/keys');
 const passport = require('passport');
 const User = require('../../models/User');
+const validLoginInput = require('../../validation/login');
+const validRegisterInput = require('../../validation/register');
 
 router.get("/test", (req, res) => res.json({ msg: "This is the users route" }));
 
 // Controller for register
 router.post("/register", (req, res) => {
+    // Validation
+    const { errors, isValid } = validRegisterInput(req.body);
+    if (!isValid) {
+        return res.status(400).json(errors);
+    }
+
     User.findOne({email: req.body.email})
         .then(user => {
             // User already exists
             if (user) {
-                return res.status(400).json({ email: "Email already taken"});
+                errors.email = 'Email already taken';
+                return res.status(400).json(errors);
             } else {
                 const newUser = new User ({
                     handle: req.body.handle,
@@ -49,6 +58,11 @@ router.post("/register", (req, res) => {
 
 // Controller for login
 router.post("/login", (req, res) => {
+    // Validation 
+    const { errors, isValid } = validLoginInput(req.body);
+    if (!isValid) {
+        return res.status(400).json(errors);
+    }
     const { email, password } = req.body;
     User.findOne({ email: email})
         .then(user => {
@@ -70,7 +84,8 @@ router.post("/login", (req, res) => {
                                 });
                             });
                     } else {
-                        return res.status(400).json({ password: "Incorrect password" });
+                        errors.password = 'Incorrect password';
+                        return res.status(400).json(errors);
                     }
                 })
         });
