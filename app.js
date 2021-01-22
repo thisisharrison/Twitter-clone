@@ -5,6 +5,8 @@ const express = require('express');
 const app = express();
 // 6. Import DB key 
 const db = require('./config/keys').mongoURI;
+// F. Passport for authenticating tokens
+const passport = require('passport');
 // A. Define Users and Tweets routes
 const users = require("./routes/api/users");
 const tweets = require("./routes/api/tweets");
@@ -20,19 +22,22 @@ mongoose
     .catch(err => console.log(err));
 
 // 2. Set up a route to render on the page
-app.get("/", (req, res) => {
-    const demo = new User ({
-        handle: "demo", 
-        email: "demo@email.com",
-        password: "password123"
-    })
-    demo.save()
-    res.send("Hello World")
-});
+// app.get("/", (req, res) => {
+//     const demo = new User ({
+//         handle: "demo", 
+//         email: "demo@email.com",
+//         password: "password123"
+//     })
+//     demo.save()
+//     res.send("Hello World")
+// });
 
-// D. Set up Middleware for body parser (urlencoded allows Postman)
+// D. Set up Middleware for body parser (urlencoded allows Postman), passport for jwt
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(passport.initialize());
+// Config file for passport exports anonymous function
+require('./config/passport')(passport);
 
 // B.
 app.use("/api/users", users);
