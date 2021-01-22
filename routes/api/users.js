@@ -6,6 +6,7 @@ const User = require('../../models/User');
 
 router.get("/test", (req, res) => res.json({ msg: "This is the users route" }));
 
+// Controller for register
 router.post("/register", (req, res) => {
     User.findOne({email: req.body.email})
         .then(user => {
@@ -18,8 +19,9 @@ router.post("/register", (req, res) => {
                     email: req.body.email,
                     password: req.body.password
                 });
-                // Encrypt the password
+                // Encrypt the password: Generate salt
                 bcrypt.genSalt(10, (err, salt) => {
+                    // User salt to hash and set password equal hash
                     bcrypt.hash(newUser.password, salt, (err, hash) => {
                         if (err) throw err;
                         newUser.password = hash;

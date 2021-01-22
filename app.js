@@ -30,7 +30,7 @@ app.get("/", (req, res) => {
     res.send("Hello World")
 });
 
-// D. Set up Middleware for body parser
+// D. Set up Middleware for body parser (urlencoded allows Postman)
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
