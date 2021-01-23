@@ -10,7 +10,7 @@ const User = require('../../models/User');
 const validLoginInput = require('../../validation/login');
 const validRegisterInput = require('../../validation/register');
 
-router.get("/test", (req, res) => res.json({ msg: "This is the users route" }));
+// router.get("/test", (req, res) => res.json({ msg: "This is the users route" }));
 
 // Controller for register
 router.post("/register", (req, res) => {
