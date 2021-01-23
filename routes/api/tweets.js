@@ -13,6 +13,7 @@ const validateTweetInput = require('../../validation/tweets');
 // Get all tweets (index)
 router.get('/', (req, res) => {
     Tweet.find()
+        .populate('user', 'handle')
         .sort({ date: -1 })
         .then(tweets => res.json(tweets))
         .catch(err => res.status(404).json({ notweetsfound: 'Tweets not found' }))
@@ -21,6 +22,7 @@ router.get('/', (req, res) => {
 // Get single tweet (show)
 router.get('/:tweetId', (req, res) => {
     Tweet.findById(req.params.tweetId)
+        .populate('user', 'handle')
         .then(tweet => res.json(tweet))
         .catch(err => res.status(404).json({ notweetfound: 'Tweet not found'}))
 });
@@ -28,6 +30,7 @@ router.get('/:tweetId', (req, res) => {
 // Get single user's tweets (/user/:userId)
 router.get('/user/:userId', (req, res) => {
     Tweet.find({ user: req.params.userId })
+        .populate('user', 'handle')
         .sort({ date: -1 })
         .then(tweets => res.json(tweets))
         .catch(err => res.status(404).json({ notweetsfound: 'Tweets not found' }))

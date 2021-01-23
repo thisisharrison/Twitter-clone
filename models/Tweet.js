@@ -5,7 +5,7 @@ const TweetSchema = new Schema({
     // Foreign key referencing users model
     user: {
         type: Schema.Types.ObjectId,
-        ref: 'users'
+        ref: 'User'
     },
     text: {
         type: String,

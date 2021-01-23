@@ -36,7 +36,7 @@ export default class TweetCompose extends Component {
                     />
                     <input type="submit" value="Post" />
                 </form>
-                <TweetBox tweet={this.state.newTweet} />
+                <TweetBox tweet={this.state.newTweet} currentUser={this.props.currentUser}/>
             </div>
         )
     }
