@@ -29,17 +29,17 @@ export const logoutUser = () => ({
 });
 
 
-export const signup = user => dispatch => {
+export const signup = user => dispatch => (
     APIUtil.signup(user)
         .then(() => (
             dispatch(receiveUserSignIn())
         ), err => (
             dispatch(receiveSessionErrors(err.response.data))
         ))
-}
+)
 
 // Upon login, set the session token and dispatch the current user. Dispatch errors on failure.
-export const login = user => dispatch => {
+export const login = user => dispatch => (
     APIUtil.login(user)
         .then(res => {
             const { token } = res.data;
@@ -49,7 +49,7 @@ export const login = user => dispatch => {
             dispatch(receiveCurrentUser(decoded));
         })
         .catch(err => dispatch(receiveSessionErrors(err.response.data)))
-}
+)
 
 export const logout = () => dispatch => {
     // Remove token from localStorage
