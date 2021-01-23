@@ -1,7 +1,7 @@
 import axios from 'axios';
 // fetch all tweets
 export const getTweets = () => {
-    return axios.get('api/tweets');
+    return axios.get('api/tweets/');
 }
 // fetch individual tweets
 export const getUserTweet = id => {
