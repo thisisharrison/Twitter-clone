@@ -15,6 +15,15 @@ const bodyParser = require("body-parser");
 // E. User model
 const User = require('./models/User');
 
+// In production we don't want 2 servers
+const path = require('path');
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static('frontend/build'));
+    app.get('/', (req, res) => {
+        res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
+    })
+}
+
 // 7. Connect MongoDB using Mongoose 
 mongoose
     .connect(db, { useNewUrlParser: true })
